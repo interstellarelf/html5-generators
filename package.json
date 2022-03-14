@@ -1,0 +1,26 @@
+{
+  "name": "html5-generators",
+  "version": "0.0.7",
+  "description": "A set of html5 generators for game-objects",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/interstellarelf/html5-generators.git"
+  },
+  "keywords": [
+    "html5",
+    "generators",
+    "node",
+    "spritesheet",
+    "explosion"
+  ],
+  "author": "Jordan E. Blake",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/interstellarelf/html5-generators/issues"
+  },
+  "homepage": "https://github.com/interstellarelf/html5-generators#readme"
+}

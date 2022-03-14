@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <link rel="stylesheet" type="text/css" href="./res/libraries/contextMenu.css">
+  <link rel="stylesheet" type="text/css" href="./res/libraries/dat.gui.css">
+  <link rel="stylesheet" type="text/css" href="./res/styles/x-builder-menu.css">
+  <link rel="stylesheet" type="text/css" href="./res/styles/gl-tools-theme.css">
+  <link rel="stylesheet" type="text/css" href="./res/styles/x-builder-default.css" media="all" />
+
+  <script src="./res/libraries/arrow.js"></script>
+  <script src="./res/libraries/lodash.js"></script>
+  <script src="./../../js/scripts/javascript.js"></script>
+  <script src="./../../js/html5/media-link.js"></script>
+  <script src="./res/libraries/threejs/libs/stats.min.js"></script>
+  <script src="./res/libraries/three.js"></script>
+  <script src="./res/libraries/gamelab.js"></script>
+  <script src="./res/libraries/rest.js"></script>
+  <script src="./res/libraries/files.js"></script>
+  <script src="./res/libraries/dat.gui.js"></script>
+  <script src="./res/extensions/dat.gui.ext.js"></script>
+  <script src="./res/libraries/threejs/loaders/GLTFLoader.js"></script>
+  <script src="./res/libraries/threejs/exporters/GLTFExporter.js"></script>
+  <script src="./res/libraries/threejs/loaders/FBXLoader.js"></script>
+  <script src="./res/libraries/jquery.js"></script>
+  <script src="./res/libraries/threejs/controls/TransformControls.js"></script>
+  <script src="./res/libraries/threejs/libs/fflate.min.js"></script>
+  <script src="./res/libraries/threejs/libs/inflate.min.js"></script>
+
+  <script src="./res/scripts/ui/main-menu.js"></script>
+
+  <style>
+    div.modal-window {
+      z-index: 9997;
+    }
+
+    span#top-trim {
+      top: 0px;
+    }
+
+    div#gui-space-left {
+      top: 30px;
+      z-index: 9995;
+    }
+
+    ul#main-menu,
+    span#top-trim {
+      position: fixed;
+      z-index: 9999;
+    }
+
+    ul#main-menu li li {
+      min-width: 90px;
+    }
+
+    ul.checkbone {
+      font-size: 18px;
+      position: relative;
+      list-style-type: none;
+      margin-top: 35px;
+      left: -10%;
+    }
+  </style>
+
+  <style>
+    body {
+      display: block;
+      margin: 0px;
+      background: black;
+    }
+
+    .dg.main {
+      position: absolute;
+      z-index: 9999;
+      right: 4px;
+      top: 30px;
+      max-width: 200px;
+      overflow: visible;
+      height: auto;
+      border: 1px ridge #333;
+      margin-top: 4px;
+      max-height: 350px;
+      overflow-x: hidden;
+      overflow-y: scroll;
+    }
+
+    .dg.main>ul {
+      display: inline-block;
+    }
+
+    .dg .property-name {
+      padding-left: 4px;
+      padding-top: 4px;
+      width: 40%;
+    }
+
+    .dg span.zero-height {
+      height: 0px;
+    }
+
+    .dg .boolean .property-name {
+      cursor: default;
+      float: left;
+      clear: left;
+      padding-top: 0px;
+      width: 70%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dg .boolean .c {
+      float: left;
+      width: 20%;
+      position: relative;
+    }
+
+    .dg .c {
+      width: 57%;
+    }
+
+    .dg li:not(.folder, .boolean, .listmember) {
+      display: inline-table;
+      cursor: auto;
+      height: 30px;
+      line-height: 20px;
+      overflow: visible;
+      padding: 0 4px 0 0px;
+    }
+
+    .dg li.listmember {
+      display: inline-table;
+      cursor: auto;
+      height: 25px;
+      line-height: 25px;
+      overflow: visible;
+      padding: 0 4px 0 0px;
+    }
+
+    .dg.object3d-controller li:not(.folder, .boolean) {
+      display: inline-table;
+      cursor: auto;
+      height: 30px;
+      width: 96%;
+      line-height: 20px;
+      overflow: visible;
+      padding: 0 4px 0 0px;
+    }
+
+    .dg.main label {
+      border: 1px solid #222;
+    }
+
+    .dg.main .close-button.close-bottom {
+      position: absolute;
+      display: none;
+    }
+
+    .dg li.title {
+      width: 90%;
+      padding-left: 20px;
+      padding-top: 2px;
+      color: lightgrey;
+      background: #030303 url(data:image/gif;base64,R0lGODlhBQAFAJEAAP////Pz8////////yH5BAEAAAIALAAAAAAFAAUAAAIIlI+hKgFxoCgAOw==) 6px 10px no-repeat;
+    }
+
+    .dg ul.closed li li,
+    .dg ul.closed li button {
+      display: none;
+    }
+  </style>
+
+  <style>
+    media-link {
+      top: 20px;
+    }
+
+    #menu-outer {
+      height: 84px;
+      background: url(images/bar-bg.jpg) repeat-x;
+    }
+
+    button#set-file-main {
+      position: absolute;
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background: url(./../../files/images/gui/file.png);
+      background-size: auto 100%;
+    }
+
+    .table {
+      display: table;
+      /* Allow the centering to work */
+      margin: 0 auto;
+    }
+
+    div#top-menu {
+      position: absolute;
+      display: block;
+      top: 0px;
+      left: 290px;
+      z-index: 9999;
+      padding: 2px;
+    }
+
+    ul.object-select {
+      position: relative;
+      width: auto;
+      list-style: none;
+      min-width: 110px;
+      padding: 0px;
+      color: lightgrey;
+      overflow: visible;
+      font-size: 12px;
+      display: none;
+    }
+
+    ul.object-select>li {
+      display: block;
+      color: lightgrey;
+      padding: 4px;
+      border: 1px inset #444;
+      cursor: pointer;
+      background: rgba(30, 30, 30);
+    }
+
+    ul.object-select li:hover {
+      background: rgba(20, 20, 20);
+    }
+
+    ul.object-select li ul {
+      display: none;
+    }
+
+    ul.object-select>li:hover>ul {
+      position: absolute;
+      z-index: -1;
+      display: block;
+      margin-top: -21px;
+      left: 80px;
+      list-style: none;
+      color: lightgrey;
+      min-width: 110px;
+    }
+
+    ul.object-select>li:hover>ul li {
+      display: block;
+      color: lightgrey;
+      padding: 4px;
+      border: 1px ridge #444;
+      cursor: pointer;
+      border: 1px inset #444;
+      background: rgba(30, 30, 30);
+    }
+
+    ul.object-select>li:hover>ul>li:hover {
+      background: rgba(20, 20, 20);
+    }
+
+    ul.show {
+      display: block;
+    }
+
+    button.main.stop {}
+
+    span#main-animation-title {
+      margin-left: 30px;
+      max-width: 84%;
+      cursor: pointer;
+    }
+
+    span#main-animation-title:hover {
+      color: coral;
+    }
+
+    input.hidden {
+      display: none;
+    }
+
+    #ui-top-right {
+      position: absolute;
+      top: 35px;
+      left: 180px;
+      width: auto;
+    }
+
+    span.selector {
+      color: #cacaca;
+      padding: 4px;
+      margin-left: 9px;
+      font-size: 12px;
+      padding-bottom: 7px;
+      padding-right: 30px;
+      border-radius: 5px;
+      border: 1px solid #222;
+      background: #0e1010;
+      cursor: pointer;
+    }
+
+    span.selector.selected {
+      background: #111;
+      border: 1px solid darkorange;
+    }
+
+
+
+  </style>
+
+</head>
+
+<body>
+
+  <div id="container"></div>
+  <canvas id="game-window" class="game-window"></canvas>
+
+  <span id="top-trim">
+
+    <span id="main-title" >
+      Gui Test
+    </span>
+
+    <ul id="main-menu" class="multi-menu">
+
+      <li>
+        File
+        <ul>
+
+          <li data-view="partial/menu/file/file.new.html">
+            New
+          </li>
+
+          <li data-view="partial/menu/file/file.open.html">
+            Open
+          </li>
+
+          <li id="import-animation">
+            Import Animation
+          </li>
+
+          <li class="save-scene">
+            Export Animation
+          </li>
+
+          <li data-view="partial/menu/settings/settings.modal.js">
+            <i class="fa fa-wrench"></i>
+            Settings
+          </li>
+
+        </ul>
+      </li>
+
+      <li>
+        Edit
+        <ul>
+          <li>
+            Redo
+          </li>
+          <li>
+            Undo
+          </li>
+          <li id="animation-mix" data-action="mix">
+            <i class="fa fa-wrench"></i>
+            Mix-Animation
+          </li>
+          <li>
+            Select All
+          </li>
+          <li>
+            Deselect
+          </li>
+        </ul>
+      </li>
+      <li>
+        Add
+        <ul>
+          <li id="add-script" data-action="load">
+            <i class="fa fa-wrench"></i>
+            Add-Script
+          </li>
+        </ul>
+      </li>
+      <li>
+        Select
+        <ul>
+          <li id="select-materials" data-action="load">
+            <i class="fa fa-wrench"></i>
+            Select-Materials
+          </li>
+        </ul>
+      </li>
+      <li>
+        Resources
+        <ul>
+          <li id="load-animation" data-action="load">
+            <i class="fa fa-wrench"></i>
+            Load-Animation
+          </li>
+          <li id="load-object3d" data-action="load">
+            <i class="fa fa-wrench"></i>
+            Load Object 3D
+          </li>
+          <li id="generate-object3d" data-action="gen">
+            <i class="fa fa-wrench"></i>
+            Generate Object 3D
+          </li>
+        </ul>
+      </li>
+      <li>
+        Docs
+        <ul>
+          <li>
+            <i class="fa fa-globe"></i>
+            Online
+          </li>
+          <li data-view="partial/menu/resources/doc-link-local.html" onclick="window.open('http://www.google.com', '_blank');">
+            <i class="fa fa-share-alt"></i>
+            Local
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </span>
+
+
+  <div id="right-pane" >
+
+    <button class="center">render frames</button>
+
+    <button class="center">replay frames</button>
+
+    <button class="center">create output</button>
+
+    <div id="tabs"></div>
+
+  </div>
+
+  <div id="main-modal" class="modal-window">
+    <button class="expand" role="expand">[ ]</button>
+    <span class="top title">
+      Title
+      <button role="close">X</button>
+    </span>
+
+    <br />
+    <br />
+    <span id="main-modal-content" class="window-scroll window"></span>
+  </div>
+
+  <script>
+
+    let AppData = {
+      projectName: '--static',
+      DEV: {
+        rightClickMenu: false
+      }
+    };
+
+
+    $(document).ready(function() {
+
+
+      new MainMenu();
+
+
+    });
+
+  </script>
+
+</body>
+
+</html>

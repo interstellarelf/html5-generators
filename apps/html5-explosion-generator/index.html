@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="google" content="notranslate">
+  <meta name="description" content="online png explosion generator for games, generate explosion bitmap sprite for free, explosiongenerator, Physio">
+
+  <!-- www.proto-service.nl/prijs-indicator -->
+  <link rel="stylesheet" type="text/css" href="./res/styles/main.css">
+  <link rel="stylesheet" type="text/css" href="./res/styles/spectrum.css">
+  <link rel="stylesheet" href="./res/styles/font-awesome.min.css">
+
+
+  <script src="./res/libraries/jquery.min.js"></script>
+  <script src="./res/libraries/SeedRandom.min.js" type="text/javascript"></script>
+  <script src="./res/libraries/jszip.min.js" type="text/javascript"></script>
+  <script src="./res/libraries/FileSaver.min.js" type="text/javascript"></script>
+  <script src="./res/libraries/pixi.min.js" type="text/javascript"></script>
+  <script src="./res/libraries/spectrum.js" type="text/javascript"></script>
+  <script src="./res/libraries/gifshot.min.js" type="text/javascript"></script>
+
+  <script src="./res/libraries/proton.min.js"></script>
+  <script type="text/javascript" src="./res/app.js"></script>
+
+  <title>explosion generator</title>
+
+  <style type="text/css">
+
+    body {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+
+    canvas.gamewindow {
+      display: none;
+    }
+
+    div.tab-title {
+      font-size: 14px;
+      padding: 4px;
+    }
+
+    div.label.mono {
+      font-family: monospace;
+    }
+
+    div.color.show.red {
+      background: red;
+      width: 30px;
+      height: 30px;
+      border: 2px solid grey;
+    }
+
+    div.color.show.orange {
+      background: orange;
+      width: 30px;
+      height: 30px;
+      border: 2px solid grey;
+    }
+
+    div.color.show.yellow {
+      background: yellow;
+      width: 30px;
+      height: 30px;
+      border: 2px solid grey;
+    }
+
+    div.color.show.green {
+      background: lime;
+      width: 30px;
+      height: 30px;
+      border: 2px solid grey;
+    }
+
+    div.color.show.blue {
+      background: aqua;
+      width: 30px;
+      height: 30px;
+      border: 2px solid grey;
+    }
+
+    div.color.show.purple {
+      background: purple;
+      width: 30px;
+      height: 30px;
+      border: 2px solid grey;
+    }
+
+    div.color-selector > input.checkBox {
+      float: left;
+      margin-left: 60px;
+      margin-top: -45px;
+      width: 20px;
+      height: 20px;
+    }
+
+    div.colorset {
+      clear: both;
+    }
+
+    div.colorset > .form-title {
+      position: relative;
+      display: block;
+      padding: 9px;
+      margin: 4px;
+      background: #444;
+      color: lightgrey;
+      font-family: monospace;
+    }
+
+    div.color-selector {
+      margin: 7px;
+    }
+
+    div.tab-window {
+      padding-bottom: 10px;
+    }
+
+  </style>
+
+</head>
+
+<body class="">
+
+  <div class="app">
+
+    <div class="workspace">
+
+      <div class="right-pane">
+        <button class="full-width" id="start"><i class="fa fa-hourglass-start"></i> START RENDER</button>
+        <button class="full-width" id="randomize"><i class="fa fa-random"></i> RANDOMIZE CHECKED</button>
+        <button class="full-width" id="stop"><i class="fa fa-stop"></i> STOP RENDER</button>
+        <button class="full-width" id="replay"><i class="fa fa-play"></i> REPLAY RENDER</button>
+        <button class="full-width" id="save"><i class="fa fa-floppy-o"></i> SAVE SPRITESHEET</button>
+        <!--<button class="full-width" id='makeGif'><i class="fa fa-floppy-o"></i> MAKE GIF</button>-->
+        <button class="full-width" id="reset"><i class="fa fa-exclamation-triangle"></i> RESET VALUES</button>
+
+
+        <div class="divider"></div>
+        <div class="tab-height"></div>
+        <div class="tab-title" id="fire">fire</div>
+        <div class="tab-title" id="smoke">smoke</div>
+        <div class="tab-title" id="spark">spark</div>
+        <div class="tab-title" id="lightning">lightning</div>
+        <div class="tab-title" id="lightning">flash</div>
+        <div class="tab-title" id="config">config</div>
+        <div class="tab-title tab-title-active" id="presets">presets</div>
+        <div class="tab-window-container">
+          <div class="tab-window fire-section" id="fire">
+            <div class="gradient-container"><canvas width="192" height="10" class="gradient"></canvas><input class="checkBox" type="checkbox"><input type="text" style="display: none;">
+              <div class="sp-replacer sp-light">
+                <div class="sp-preview">
+                  <div class="sp-preview-inner" style="background-color: rgba(35, 181, 214, 0.68);"></div>
+                </div>
+                <div class="sp-dd">▼</div>
+              </div><input type="text" style="display: none;">
+              <div class="sp-replacer sp-light">
+                <div class="sp-preview">
+                  <div class="sp-preview-inner" style="background-color: rgba(192, 205, 206, 0.45);"></div>
+                </div>
+                <div class="sp-dd">▼</div>
+              </div><input type="text" style="display: none;">
+              <div class="sp-replacer sp-light">
+                <div class="sp-preview">
+                  <div class="sp-preview-inner" style="background-color: rgba(23, 252, 188, 0.25);"></div>
+                </div>
+                <div class="sp-dd">▼</div>
+              </div><input type="text" style="display: none;">
+              <div class="sp-replacer sp-light">
+                <div class="sp-preview">
+                  <div class="sp-preview-inner" style="background-color: rgba(130, 21, 67, 0);"></div>
+                </div>
+                <div class="sp-dd">▼</div>
+              </div>
+            </div>
+            <div class="range-selector">
+              <div class="value">296</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">start amount</div><input checked="" class="range-slider" type="range" min="1" max="400" step="1" value="97">
+            </div>
+            <div class="range-selector">
+              <div class="value">8.00</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">delay</div><input checked="" class="range-slider" type="range" min="0" max="25" step="1" value="11">
+            </div>
+            <div class="range-selector">
+              <div class="value">22</div>
+              <div class="label"><input class="checkbox" type="checkbox">offset</div><input checked="" class="range-slider" type="range" min="1" max="128" step="1" value="1">
+            </div>
+            <div class="range-selector">
+              <div class="value">12</div>
+              <div class="label"><input class="checkbox" type="checkbox">offset range</div><input checked="" class="range-slider" type="range" min="0" max="128" step="1" value="0">
+            </div>
+
+            <div class="range-selector">
+              <div class="value">0</div>
+              <div class="label"><input class="checkbox" type="checkbox">min angle dispersion</div><input checked="" class="range-slider" type="range" min="0" max="360" step="1" value="0">
+            </div>
+
+            <div class="range-selector">
+              <div class="value">3600</div>
+              <div class="label"><input class="checkbox" type="checkbox">max angle dispersion</div><input checked="" class="range-slider" type="range" min="0" max="360" step="1" value="360">
+            </div>
+
+
+            <div class="range-selector">
+              <div class="value">1.3</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">v start</div><input checked="" class="range-slider" type="range" min="0.1" max="2.5" step="0.1" value="1.20">
+            </div>
+            <div class="range-selector">
+              <div class="value">0.50</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">v start branche multiplier</div><input checked="" class="range-slider" type="range" min="0" max="2" step="0.05" value="0.70">
+            </div>
+            <div class="range-selector">
+              <div class="value">0</div>
+              <div class="label"><input class="checkbox" type="checkbox">v impulse to parent</div><input checked="" class="range-slider" type="range" min="0" max="2" step="0.05" value="0">
+            </div>
+            <div class="range-selector">
+              <div class="value">1</div>
+              <div class="label"><input class="checkbox" type="checkbox">damping</div><input checked="" class="range-slider" type="range" min="0.9" max="1" step="0.01" value="0.99">
+            </div>
+            <div class="range-selector">
+              <div class="value">6</div>
+              <div class="label"><input class="checkbox" type="checkbox">scale start</div><input checked="" class="range-slider" type="range" min="0" max="10" step="1" value="7.00">
+            </div>
+            <div class="range-selector">
+              <div class="value">4</div>
+              <div class="label"><input class="checkbox" type="checkbox">scale end</div><input checked="" class="range-slider" type="range" min="0" max="10" step="1" value="0.00">
+            </div>
+            <div class="range-selector">
+              <div class="value">78</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">duration</div><input checked="" class="range-slider" type="range" min="5" max="80" step="1" value="54.00">
+            </div>
+            <div class="range-selector">
+              <div class="value">227.00</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">branch angle</div><input checked="" class="range-slider" type="range" min="0" max="360" step="1" value="220.00">
+            </div>
+            <div class="range-selector">
+              <div class="value">0.20</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">gravity</div><input checked="" class="range-slider" type="range" min="-1" max="1" step="0.1" value="0.30">
+            </div>
+            <div class="range-selector">
+              <div class="value">3.00</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">branch depth</div><input checked="" class="range-slider" type="range" min="0" max="10" step="1" value="9.00">
+            </div>
+            <div class="range-selector">
+              <div class="value">7.00</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">fire chance</div><input checked="" class="range-slider" type="range" min="0" max="25" step="1" value="21.00">
+            </div>
+            <div class="range-selector">
+              <div class="value">9.00</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">smoke chance</div><input checked="" class="range-slider" type="range" min="0" max="25" step="1" value="23.00">
+            </div>
+            <div class="range-selector">
+              <div class="value">24.00</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">spark chance</div><input checked="" class="range-slider" type="range" min="0" max="25" step="1" value="3.00">
+            </div>
+          </div>
+          <div class="tab-window smoke-section" id="smoke">
+            <div class="gradient-container"><canvas width="192" height="10" class="gradient"></canvas><input class="checkBox" type="checkbox"><input type="text" style="display: none;">
+              <div class="sp-replacer sp-light">
+                <div class="sp-preview">
+                  <div class="sp-preview-inner" style="background-color: rgba(0, 0, 0, 0);"></div>
+                </div>
+                <div class="sp-dd">▼</div>
+              </div><input type="text" style="display: none;">
+              <div class="sp-replacer sp-light">
+                <div class="sp-preview">
+                  <div class="sp-preview-inner" style="background-color: rgba(99, 99, 99, 0.41);"></div>
+                </div>
+                <div class="sp-dd">▼</div>
+              </div><input type="text" style="display: none;">
+              <div class="sp-replacer sp-light">
+                <div class="sp-preview">
+                  <div class="sp-preview-inner" style="background-color: rgba(0, 0, 0, 0.33);"></div>
+                </div>
+                <div class="sp-dd">▼</div>
+              </div><input type="text" style="display: none;">
+              <div class="sp-replacer sp-light">
+                <div class="sp-preview">
+                  <div class="sp-preview-inner" style="background-color: rgba(0, 0, 0, 0.1);"></div>
+                </div>
+                <div class="sp-dd">▼</div>
+              </div>
+            </div>
+            <div class="range-selector">
+              <div class="value">1</div>
+              <div class="label"><input class="checkbox" type="checkbox">offset</div><input checked="" class="range-slider" type="range" min="1" max="128" step="1" value="1">
+            </div>
+            <div class="range-selector">
+              <div class="value">1</div>
+              <div class="label"><input class="checkbox" type="checkbox">offset range</div><input checked="" class="range-slider" type="range" min="0" max="128" step="1" value="1">
+            </div>
+            <div class="range-selector">
+              <div class="value">0.10</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">v start</div><input checked="" class="range-slider" type="range" min="0.1" max="2.5" step="0.1" value="0.6">
+            </div>
+            <div class="range-selector">
+              <div class="value">0.65</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">v start branche multiplier</div><input checked="" class="range-slider" type="range" min="0" max="2" step="0.05" value="1.60">
+            </div>
+            <div class="range-selector">
+              <div class="value">0</div>
+              <div class="label"><input class="checkbox" type="checkbox">v impulse to parent</div><input checked="" class="range-slider" type="range" min="0" max="2" step="0.05" value="0">
+            </div>
+            <div class="range-selector">
+              <div class="value">0.99</div>
+              <div class="label"><input class="checkbox" type="checkbox">damping</div><input checked="" class="range-slider" type="range" min="0.9" max="1" step="0.01" value="0.99">
+            </div>
+            <div class="range-selector">
+              <div class="value">4</div>
+              <div class="label"><input class="checkbox" type="checkbox">scale start</div><input checked="" class="range-slider" type="range" min="0" max="10" step="1" value="5">
+            </div>
+            <div class="range-selector">
+              <div class="value">1</div>
+              <div class="label"><input class="checkbox" type="checkbox">scale end</div><input checked="" class="range-slider" type="range" min="0" max="10" step="1" value="5">
+            </div>
+            <div class="range-selector">
+              <div class="value">68.00</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">duration</div><input checked="" class="range-slider" type="range" min="5" max="80" step="1" value="76.00">
+            </div>
+            <div class="range-selector">
+              <div class="value">35.00</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">branch angle</div><input checked="" class="range-slider" type="range" min="0" max="360" step="1" value="221.00">
+            </div>
+            <div class="range-selector">
+              <div class="value">0.10</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">gravity</div><input checked="" class="range-slider" type="range" min="-1" max="1" step="0.1" value="-0.20">
+            </div>
+            <div class="range-selector">
+              <div class="value">2.00</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">branch depth</div><input checked="" class="range-slider" type="range" min="0" max="10" step="1" value="1.00">
+            </div>
+            <div class="range-selector">
+              <div class="value">6.00</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">smoke chance</div><input checked="" class="range-slider" type="range" min="0" max="25" step="1" value="17.00">
+            </div>
+            <div class="range-selector">
+              <div class="value">2.00</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">spark chance</div><input checked="" class="range-slider" type="range" min="0" max="25" step="1" value="10.00">
+            </div>
+          </div>
+          <div class="tab-window spark-section" id="spark">
+            <div class="gradient-container"><canvas width="192" height="10" class="gradient"></canvas><input class="checkBox" type="checkbox"><input type="text" style="display: none;">
+              <div class="sp-replacer sp-light">
+                <div class="sp-preview">
+                  <div class="sp-preview-inner" style="background-color: rgba(255, 255, 255, 0.8);"></div>
+                </div>
+                <div class="sp-dd">▼</div>
+              </div><input type="text" style="display: none;">
+              <div class="sp-replacer sp-light">
+                <div class="sp-preview">
+                  <div class="sp-preview-inner" style="background-color: rgba(255, 0, 0, 0.7);"></div>
+                </div>
+                <div class="sp-dd">▼</div>
+              </div><input type="text" style="display: none;">
+              <div class="sp-replacer sp-light">
+                <div class="sp-preview">
+                  <div class="sp-preview-inner" style="background-color: rgba(50, 100, 50, 0.6);"></div>
+                </div>
+                <div class="sp-dd">▼</div>
+              </div><input type="text" style="display: none;">
+              <div class="sp-replacer sp-light">
+                <div class="sp-preview">
+                  <div class="sp-preview-inner" style="background-color: rgba(0, 0, 0, 0.2);"></div>
+                </div>
+                <div class="sp-dd">▼</div>
+              </div>
+            </div>
+            <div class="range-selector">
+              <div class="value">1</div>
+              <div class="label"><input class="checkbox" type="checkbox">offset</div><input checked="" class="range-slider" type="range" min="1" max="128" step="1" value="1">
+            </div>
+            <div class="range-selector">
+              <div class="value">1</div>
+              <div class="label"><input class="checkbox" type="checkbox">offset range</div><input checked="" class="range-slider" type="range" min="0" max="128" step="1" value="1">
+            </div>
+            <div class="range-selector">
+              <div class="value">1.10</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">v start</div><input checked="" class="range-slider" type="range" min="0.1" max="2.5" step="0.1" value="1.60">
+            </div>
+            <div class="range-selector">
+              <div class="value">0.60</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">v start branche multiplier</div><input checked="" class="range-slider" type="range" min="0" max="2" step="0.05" value="1.30">
+            </div>
+            <div class="range-selector">
+              <div class="value">0</div>
+              <div class="label"><input class="checkbox" type="checkbox">v impulse to parent</div><input checked="" class="range-slider" type="range" min="0" max="2" step="0.05" value="0">
+            </div>
+            <div class="range-selector">
+              <div class="value">0.98</div>
+              <div class="label"><input class="checkbox" type="checkbox">damping</div><input checked="" class="range-slider" type="range" min="0.9" max="1" step="0.01" value="0.98">
+            </div>
+            <div class="range-selector">
+              <div class="value">2</div>
+              <div class="label"><input class="checkbox" type="checkbox">scale start</div><input checked="" class="range-slider" type="range" min="0" max="10" step="1" value="2">
+            </div>
+            <div class="range-selector">
+              <div class="value">4</div>
+              <div class="label"><input class="checkbox" type="checkbox">scale end</div><input checked="" class="range-slider" type="range" min="0" max="10" step="1" value="4">
+            </div>
+            <div class="range-selector">
+              <div class="value">14.00</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">duration</div><input checked="" class="range-slider" type="range" min="5" max="80" step="1" value="59.00">
+            </div>
+            <div class="range-selector">
+              <div class="value">2.00</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">branch angle</div><input checked="" class="range-slider" type="range" min="0" max="360" step="1" value="261.00">
+            </div>
+            <div class="range-selector">
+              <div class="value">-0.50</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">gravity</div><input checked="" class="range-slider" type="range" min="-1" max="1" step="0.1" value="0.30">
+            </div>
+            <div class="range-selector">
+              <div class="value">8.00</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">branch depth</div><input checked="" class="range-slider" type="range" min="0" max="10" step="1" value="6.00">
+            </div>
+            <div class="range-selector">
+              <div class="value">14.00</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">smoke chance</div><input checked="" class="range-slider" type="range" min="0" max="25" step="1" value="20.00">
+            </div>
+            <div class="range-selector">
+              <div class="value">16.00</div>
+              <div class="label"><input class="checkbox" type="checkbox" checked="">spark chance</div><input checked="" class="range-slider" type="range" min="0" max="25" step="1" value="2.00">
+            </div>
+          </div>
+          <div class="tab-window config-section" id="config">
+            <div class="range-selector">
+              <div class="label"><input class="checkbox" type="checkbox" name="randomize" checked="">random seed (also @ start render)</div><input class="range-slider" type="text" value="99113">
+            </div>
+            <div class="range-selector">
+              <div class="value">40</div>
+              <div class="label">replay fps</div><input checked="" class="range-slider" type="range" min="1" max="60" step="1" value="40">
+            </div>
+            <div class="range-selector">
+              <div class="value">1</div>
+              <div class="label">replay skip frames</div><input checked="" class="range-slider" type="range" min="1" max="10" step="1" value="1">
+            </div>
+
+            <div class="range-selector">
+              <div class="value">256</div>
+              <div class="label">canvas width</div><input checked="" class="range-slider" type="range" min="32" max="512" step="32" value="256">
+            </div>
+            <div class="range-selector">
+              <div class="value">256</div>
+              <div class="label">canvas height</div><input checked="" class="range-slider" type="range" min="32" max="512" step="32" value="256">
+            </div>
+          </div>
+
+          <div class="tab-window lightning-section" id="lightning">
+
+            <div class="range-selector">
+              <div class="value">10</div>
+              <div class="label">Total Instances Set A</div><input checked="" class="range-slider" type="range" min="1" max="100" step="1" value="10">
+            </div>
+
+            <div class="range-selector">
+              <div class="value">20</div>
+              <div class="label">Total Instances Set B</div><input checked="" class="range-slider" type="range" min="1" max="100" step="1" value="20">
+            </div>
+
+            <div class="range-selector">
+              <div class="value">1</div>
+              <div class="label">min-size-a</div><input checked="" class="range-slider" type="range" min="0" max="10" step="1" value="1">
+            </div>
+            <div class="range-selector">
+              <div class="value">2</div>
+              <div class="label">max-size-a</div><input checked="" class="range-slider" type="range" min="0" max="10" step="1" value="2">
+            </div>
+
+            <div class="range-selector">
+              <div class="value">5</div>
+              <div class="label">max-distance-a</div><input checked="" class="range-slider" type="range" min="1" max="20" step="1" value="5">
+            </div>
+
+            <div class="range-selector">
+              <div class="value">1</div>
+              <div class="label">min-size-b</div><input checked="" class="range-slider" type="range" min="0" max="10" step="1" value="1">
+            </div>
+            <div class="range-selector">
+              <div class="value">2</div>
+              <div class="label">max-size-b</div><input checked="" class="range-slider" type="range" min="0" max="10" step="1" value="2">
+            </div>
+
+            <div class="range-selector">
+              <div class="value">5</div>
+              <div class="label">max-distance-b</div><input checked="" class="range-slider" type="range" min="1" max="20" step="1" value="5">
+            </div>
+
+            <div class="colorset a">
+
+              <div class="form-title">
+                <label for="">Lightning Color A</label>
+              </div>
+
+            <div class="color-selector">
+              <div class="color show green"></div>
+              <div class="label">green lightning</div><input class="checkBox" type="checkbox"><input type="text" style="display: none;">
+            </div>
+
+            <div class="color-selector">
+              <div class="color show red"></div>
+              <div class="label">red lightning</div><input class="checkBox" type="checkbox"><input type="text" style="display: none;">
+            </div>
+
+            <div class="color-selector">
+              <div class="color show orange"></div>
+              <div class="label">orange lightning</div><input class="checkBox" type="checkbox"><input type="text" style="display: none;">
+            </div>
+
+            <div class="color-selector">
+              <div class="color show blue"></div>
+              <div class="label">blue lightning</div><input class="checkBox" type="checkbox"><input type="text" style="display: none;">
+            </div>
+
+            </div>
+
+            <div class="colorset b">
+
+              <div class="form-title">
+                <label for="">Lightning Color B</label>
+              </div>
+
+            <div class="color-selector">
+              <div class="color show green"></div>
+              <div class="label">green lightning</div><input class="checkBox" type="checkbox"><input type="text" style="display: none;">
+            </div>
+
+            <div class="color-selector">
+              <div class="color show red"></div>
+              <div class="label">red lightning</div><input class="checkBox" type="checkbox"><input type="text" style="display: none;">
+            </div>
+
+            <div class="color-selector">
+              <div class="color show orange"></div>
+              <div class="label">orange lightning</div><input class="checkBox" type="checkbox"><input type="text" style="display: none;">
+            </div>
+
+            <div class="color-selector">
+              <div class="color show blue"></div>
+              <div class="label">blue lightning</div><input class="checkBox" type="checkbox"><input type="text" style="display: none;">
+            </div>
+
+            </div>
+
+          </div>
+
+          <div class="tab-window tab-window-active presets-section" id="presets">
+            <div class="preset"><img class="icon" src="./res/images/bigExplosion.png">
+              <div class="label">BIG EXPLOSION</div>
+            </div>
+            <div class="preset"><img class="icon" src="./res/images/softExplosion.png">
+              <div class="label">SOFT EXPLOSION</div>
+            </div>
+            <div class="preset"><img class="icon" src="./res/images/sparksCracker.png">
+              <div class="label">SPARK CRACKER</div>
+            </div>
+            <div class="preset"><img class="icon" src="./res/images/dandelion.png">
+              <div class="label">DANDELION</div>
+            </div>
+            <div class="preset"><img class="icon" src="./res/images/smokeBomb.png">
+              <div class="label">SMOKE BOMB</div>
+            </div>
+            <div class="preset"><img class="icon" src="./res/images/dusty.png">
+              <div class="label">PURPLE DUST</div>
+            </div>
+
+            <div class="preset preset-active"><img class="icon" src="./res/images/haloRing.png">
+              <div class="label">HALO RING</div>
+            </div>
+            <div class="preset"><img class="icon" src="./res/images/toxicWaste.png">
+              <div class="label">TOXIC WASTE</div>
+            </div>
+            <div class="preset"><img class="icon" src="./res/images/plasmaBurst.png">
+              <div class="label">PLASMA BURST</div>
+            </div>
+            <div class="preset"><img class="icon" src="./res/images/splitSecond.png">
+              <div class="label">SPLIT SECOND</div>
+            </div>
+            <div class="preset"><img class="icon" src="./res/images/bloodStains.png">
+              <div class="label">BLOOD STAINS</div>
+            </div>
+            <div class="preset"><img class="icon" src="./res/images/basic.png">
+              <div class="label">BASIC</div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="left-pane">
+        <div class="question-mark"><i class="fa fa-question-circle"></i></div>
+        <div class="num-particles">
+          <div>particle count: </div>
+          <div class="particle-count">0</div>
+        </div>
+        <div class="logo">
+          <div id="title">
+            <img src="./res/images/logo.png">
+            <div class="logo-part">Physio</div>
+          </div>
+          <div id="subtitle">
+            explosion sprite generator
+          </div>
+        </div>
+
+        <div class="vertical-align-helper"></div>
+
+
+
+        <canvas id="explo-frame-gl" class="effect-frame" width="420" height="420" style="width: 420px; height: 420px; position: absolute; top: 15px; left: 280px; cursor: inherit;"></canvas>
+        <canvas id="particle-frame-gl" class="particle-frame" width="420" height="420" style="width: 420px; height: 420px; position: absolute; top: 15px; left: 280px; cursor: inherit; z-index: 1000;"></canvas>
+
+      </div>
+    </div>
+    <div class="render-output">
+      <div class="rendered-frame">
+        <div class="frame-num">0</div>
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <div class="sp-container sp-hidden sp-light sp-input-disabled sp-alpha-enabled sp-palette-buttons-disabled sp-palette-disabled sp-initial-disabled">
+    <div class="sp-palette-container">
+      <div class="sp-palette sp-thumb sp-cf"></div>
+      <div class="sp-palette-button-container sp-cf"><button type="button" class="sp-palette-toggle">less</button></div>
+    </div>
+    <div class="sp-picker-container">
+      <div class="sp-top sp-cf">
+        <div class="sp-fill"></div>
+        <div class="sp-top-inner">
+          <div class="sp-color" style="background-color: rgb(0, 208, 255);">
+            <div class="sp-sat">
+              <div class="sp-val">
+                <div class="sp-dragger" style="top: 0px; left: 0px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="sp-clear sp-clear-display" style="display: none;" title="Clear Color Selection"></div>
+          <div class="sp-hue">
+            <div class="sp-slider" style="top: 0px;"></div>
+          </div>
+        </div>
+        <div class="sp-alpha">
+          <div class="sp-alpha-inner" style="background: linear-gradient(to right, rgba(35, 181, 214, 0), rgb(35, 181, 214));">
+            <div class="sp-alpha-handle" style="left: 0px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sp-input-container sp-cf"><input class="sp-input" type="text" spellcheck="false"></div>
+      <div class="sp-initial sp-thumb sp-cf"></div>
+      <div class="sp-button-container sp-cf"><button type="button" class="sp-choose">choose</button></div>
+    </div>
+  </div>
+  <div class="sp-container sp-hidden sp-light sp-input-disabled sp-alpha-enabled sp-palette-buttons-disabled sp-palette-disabled sp-initial-disabled">
+    <div class="sp-palette-container">
+      <div class="sp-palette sp-thumb sp-cf"></div>
+      <div class="sp-palette-button-container sp-cf"><button type="button" class="sp-palette-toggle">less</button></div>
+    </div>
+    <div class="sp-picker-container">
+      <div class="sp-top sp-cf">
+        <div class="sp-fill"></div>
+        <div class="sp-top-inner">
+          <div class="sp-color" style="background-color: rgb(0, 237, 255);">
+            <div class="sp-sat">
+              <div class="sp-val">
+                <div class="sp-dragger" style="top: 0px; left: 0px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="sp-clear sp-clear-display" style="display: none;" title="Clear Color Selection"></div>
+          <div class="sp-hue">
+            <div class="sp-slider" style="top: 0px;"></div>
+          </div>
+        </div>
+        <div class="sp-alpha">
+          <div class="sp-alpha-inner" style="background: linear-gradient(to right, rgba(192, 205, 206, 0), rgb(192, 205, 206));">
+            <div class="sp-alpha-handle" style="left: 0px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sp-input-container sp-cf"><input class="sp-input" type="text" spellcheck="false"></div>
+      <div class="sp-initial sp-thumb sp-cf"></div>
+      <div class="sp-button-container sp-cf"><button type="button" class="sp-choose">choose</button></div>
+    </div>
+  </div>
+  <div class="sp-container sp-hidden sp-light sp-input-disabled sp-alpha-enabled sp-palette-buttons-disabled sp-palette-disabled sp-initial-disabled">
+    <div class="sp-palette-container">
+      <div class="sp-palette sp-thumb sp-cf"></div>
+      <div class="sp-palette-button-container sp-cf"><button type="button" class="sp-palette-toggle">less</button></div>
+    </div>
+    <div class="sp-picker-container">
+      <div class="sp-top sp-cf">
+        <div class="sp-fill"></div>
+        <div class="sp-top-inner">
+          <div class="sp-color" style="background-color: rgb(0, 255, 184);">
+            <div class="sp-sat">
+              <div class="sp-val">
+                <div class="sp-dragger" style="top: 0px; left: 0px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="sp-clear sp-clear-display" style="display: none;" title="Clear Color Selection"></div>
+          <div class="sp-hue">
+            <div class="sp-slider" style="top: 0px;"></div>
+          </div>
+        </div>
+        <div class="sp-alpha">
+          <div class="sp-alpha-inner" style="background: linear-gradient(to right, rgba(23, 252, 188, 0), rgb(23, 252, 188));">
+            <div class="sp-alpha-handle" style="left: 0px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sp-input-container sp-cf"><input class="sp-input" type="text" spellcheck="false"></div>
+      <div class="sp-initial sp-thumb sp-cf"></div>
+      <div class="sp-button-container sp-cf"><button type="button" class="sp-choose">choose</button></div>
+    </div>
+  </div>
+  <div class="sp-container sp-hidden sp-light sp-input-disabled sp-alpha-enabled sp-palette-buttons-disabled sp-palette-disabled sp-initial-disabled">
+    <div class="sp-palette-container">
+      <div class="sp-palette sp-thumb sp-cf"></div>
+      <div class="sp-palette-button-container sp-cf"><button type="button" class="sp-palette-toggle">less</button></div>
+    </div>
+    <div class="sp-picker-container">
+      <div class="sp-top sp-cf">
+        <div class="sp-fill"></div>
+        <div class="sp-top-inner">
+          <div class="sp-color" style="background-color: rgb(255, 0, 108);">
+            <div class="sp-sat">
+              <div class="sp-val">
+                <div class="sp-dragger" style="top: 0px; left: 0px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="sp-clear sp-clear-display" style="display: none;" title="Clear Color Selection"></div>
+          <div class="sp-hue">
+            <div class="sp-slider" style="top: 0px;"></div>
+          </div>
+        </div>
+        <div class="sp-alpha">
+          <div class="sp-alpha-inner" style="background: linear-gradient(to right, rgba(130, 21, 67, 0), rgb(130, 21, 67));">
+            <div class="sp-alpha-handle" style="left: 0px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sp-input-container sp-cf"><input class="sp-input" type="text" spellcheck="false"></div>
+      <div class="sp-initial sp-thumb sp-cf"></div>
+      <div class="sp-button-container sp-cf"><button type="button" class="sp-choose">choose</button></div>
+    </div>
+  </div>
+  <div class="sp-container sp-hidden sp-light sp-input-disabled sp-alpha-enabled sp-palette-buttons-disabled sp-palette-disabled sp-initial-disabled">
+    <div class="sp-palette-container">
+      <div class="sp-palette sp-thumb sp-cf"></div>
+      <div class="sp-palette-button-container sp-cf"><button type="button" class="sp-palette-toggle">less</button></div>
+    </div>
+    <div class="sp-picker-container">
+      <div class="sp-top sp-cf">
+        <div class="sp-fill"></div>
+        <div class="sp-top-inner">
+          <div class="sp-color" style="background-color: rgb(255, 0, 0);">
+            <div class="sp-sat">
+              <div class="sp-val">
+                <div class="sp-dragger" style="top: 0px; left: 0px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="sp-clear sp-clear-display" style="display: none;" title="Clear Color Selection"></div>
+          <div class="sp-hue">
+            <div class="sp-slider" style="top: 0px;"></div>
+          </div>
+        </div>
+        <div class="sp-alpha">
+          <div class="sp-alpha-inner" style="background: linear-gradient(to right, rgba(0, 0, 0, 0), rgb(0, 0, 0));">
+            <div class="sp-alpha-handle" style="left: 0px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sp-input-container sp-cf"><input class="sp-input" type="text" spellcheck="false"></div>
+      <div class="sp-initial sp-thumb sp-cf"></div>
+      <div class="sp-button-container sp-cf"><button type="button" class="sp-choose">choose</button></div>
+    </div>
+  </div>
+  <div class="sp-container sp-hidden sp-light sp-input-disabled sp-alpha-enabled sp-palette-buttons-disabled sp-palette-disabled sp-initial-disabled">
+    <div class="sp-palette-container">
+      <div class="sp-palette sp-thumb sp-cf"></div>
+      <div class="sp-palette-button-container sp-cf"><button type="button" class="sp-palette-toggle">less</button></div>
+    </div>
+    <div class="sp-picker-container">
+      <div class="sp-top sp-cf">
+        <div class="sp-fill"></div>
+        <div class="sp-top-inner">
+          <div class="sp-color" style="background-color: rgb(255, 0, 0);">
+            <div class="sp-sat">
+              <div class="sp-val">
+                <div class="sp-dragger" style="top: 0px; left: 0px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="sp-clear sp-clear-display" style="display: none;" title="Clear Color Selection"></div>
+          <div class="sp-hue">
+            <div class="sp-slider" style="top: 0px;"></div>
+          </div>
+        </div>
+        <div class="sp-alpha">
+          <div class="sp-alpha-inner" style="background: linear-gradient(to right, rgba(99, 99, 99, 0), rgb(99, 99, 99));">
+            <div class="sp-alpha-handle" style="left: 0px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sp-input-container sp-cf"><input class="sp-input" type="text" spellcheck="false"></div>
+      <div class="sp-initial sp-thumb sp-cf"></div>
+      <div class="sp-button-container sp-cf"><button type="button" class="sp-choose">choose</button></div>
+    </div>
+  </div>
+  <div class="sp-container sp-hidden sp-light sp-input-disabled sp-alpha-enabled sp-palette-buttons-disabled sp-palette-disabled sp-initial-disabled">
+    <div class="sp-palette-container">
+      <div class="sp-palette sp-thumb sp-cf"></div>
+      <div class="sp-palette-button-container sp-cf"><button type="button" class="sp-palette-toggle">less</button></div>
+    </div>
+    <div class="sp-picker-container">
+      <div class="sp-top sp-cf">
+        <div class="sp-fill"></div>
+        <div class="sp-top-inner">
+          <div class="sp-color" style="background-color: rgb(255, 0, 0);">
+            <div class="sp-sat">
+              <div class="sp-val">
+                <div class="sp-dragger" style="top: 0px; left: 0px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="sp-clear sp-clear-display" style="display: none;" title="Clear Color Selection"></div>
+          <div class="sp-hue">
+            <div class="sp-slider" style="top: 0px;"></div>
+          </div>
+        </div>
+        <div class="sp-alpha">
+          <div class="sp-alpha-inner" style="background: linear-gradient(to right, rgba(0, 0, 0, 0), rgb(0, 0, 0));">
+            <div class="sp-alpha-handle" style="left: 0px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sp-input-container sp-cf"><input class="sp-input" type="text" spellcheck="false"></div>
+      <div class="sp-initial sp-thumb sp-cf"></div>
+      <div class="sp-button-container sp-cf"><button type="button" class="sp-choose">choose</button></div>
+    </div>
+  </div>
+  <div class="sp-container sp-hidden sp-light sp-input-disabled sp-alpha-enabled sp-palette-buttons-disabled sp-palette-disabled sp-initial-disabled">
+    <div class="sp-palette-container">
+      <div class="sp-palette sp-thumb sp-cf"></div>
+      <div class="sp-palette-button-container sp-cf"><button type="button" class="sp-palette-toggle">less</button></div>
+    </div>
+    <div class="sp-picker-container">
+      <div class="sp-top sp-cf">
+        <div class="sp-fill"></div>
+        <div class="sp-top-inner">
+          <div class="sp-color" style="background-color: rgb(255, 0, 0);">
+            <div class="sp-sat">
+              <div class="sp-val">
+                <div class="sp-dragger" style="top: 0px; left: 0px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="sp-clear sp-clear-display" style="display: none;" title="Clear Color Selection"></div>
+          <div class="sp-hue">
+            <div class="sp-slider" style="top: 0px;"></div>
+          </div>
+        </div>
+        <div class="sp-alpha">
+          <div class="sp-alpha-inner" style="background: linear-gradient(to right, rgba(0, 0, 0, 0), rgb(0, 0, 0));">
+            <div class="sp-alpha-handle" style="left: 0px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sp-input-container sp-cf"><input class="sp-input" type="text" spellcheck="false"></div>
+      <div class="sp-initial sp-thumb sp-cf"></div>
+      <div class="sp-button-container sp-cf"><button type="button" class="sp-choose">choose</button></div>
+    </div>
+  </div>
+  <div class="sp-container sp-hidden sp-light sp-input-disabled sp-alpha-enabled sp-palette-buttons-disabled sp-palette-disabled sp-initial-disabled">
+    <div class="sp-palette-container">
+      <div class="sp-palette sp-thumb sp-cf"></div>
+      <div class="sp-palette-button-container sp-cf"><button type="button" class="sp-palette-toggle">less</button></div>
+    </div>
+    <div class="sp-picker-container">
+      <div class="sp-top sp-cf">
+        <div class="sp-fill"></div>
+        <div class="sp-top-inner">
+          <div class="sp-color" style="background-color: rgb(255, 0, 0);">
+            <div class="sp-sat">
+              <div class="sp-val">
+                <div class="sp-dragger" style="top: 0px; left: 0px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="sp-clear sp-clear-display" style="display: none;" title="Clear Color Selection"></div>
+          <div class="sp-hue">
+            <div class="sp-slider" style="top: 0px;"></div>
+          </div>
+        </div>
+        <div class="sp-alpha">
+          <div class="sp-alpha-inner" style="background: linear-gradient(to right, rgba(255, 255, 255, 0), rgb(255, 255, 255));">
+            <div class="sp-alpha-handle" style="left: 0px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sp-input-container sp-cf"><input class="sp-input" type="text" spellcheck="false"></div>
+      <div class="sp-initial sp-thumb sp-cf"></div>
+      <div class="sp-button-container sp-cf"><button type="button" class="sp-choose">choose</button></div>
+    </div>
+  </div>
+  <div class="sp-container sp-hidden sp-light sp-input-disabled sp-alpha-enabled sp-palette-buttons-disabled sp-palette-disabled sp-initial-disabled">
+    <div class="sp-palette-container">
+      <div class="sp-palette sp-thumb sp-cf"></div>
+      <div class="sp-palette-button-container sp-cf"><button type="button" class="sp-palette-toggle">less</button></div>
+    </div>
+    <div class="sp-picker-container">
+      <div class="sp-top sp-cf">
+        <div class="sp-fill"></div>
+        <div class="sp-top-inner">
+          <div class="sp-color" style="background-color: rgb(255, 0, 0);">
+            <div class="sp-sat">
+              <div class="sp-val">
+                <div class="sp-dragger" style="top: 0px; left: 0px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="sp-clear sp-clear-display" style="display: none;" title="Clear Color Selection"></div>
+          <div class="sp-hue">
+            <div class="sp-slider" style="top: 0px;"></div>
+          </div>
+        </div>
+        <div class="sp-alpha">
+          <div class="sp-alpha-inner" style="background: linear-gradient(to right, rgba(255, 0, 0, 0), rgb(255, 0, 0));">
+            <div class="sp-alpha-handle" style="left: 0px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sp-input-container sp-cf"><input class="sp-input" type="text" spellcheck="false"></div>
+      <div class="sp-initial sp-thumb sp-cf"></div>
+      <div class="sp-button-container sp-cf"><button type="button" class="sp-choose">choose</button></div>
+    </div>
+  </div>
+  <div class="sp-container sp-hidden sp-light sp-input-disabled sp-alpha-enabled sp-palette-buttons-disabled sp-palette-disabled sp-initial-disabled">
+    <div class="sp-palette-container">
+      <div class="sp-palette sp-thumb sp-cf"></div>
+      <div class="sp-palette-button-container sp-cf"><button type="button" class="sp-palette-toggle">less</button></div>
+    </div>
+    <div class="sp-picker-container">
+      <div class="sp-top sp-cf">
+        <div class="sp-fill"></div>
+        <div class="sp-top-inner">
+          <div class="sp-color" style="background-color: rgb(0, 255, 0);">
+            <div class="sp-sat">
+              <div class="sp-val">
+                <div class="sp-dragger" style="top: 0px; left: 0px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="sp-clear sp-clear-display" style="display: none;" title="Clear Color Selection"></div>
+          <div class="sp-hue">
+            <div class="sp-slider" style="top: 0px;"></div>
+          </div>
+        </div>
+        <div class="sp-alpha">
+          <div class="sp-alpha-inner" style="background: linear-gradient(to right, rgba(50, 100, 50, 0), rgb(50, 100, 50));">
+            <div class="sp-alpha-handle" style="left: 0px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sp-input-container sp-cf"><input class="sp-input" type="text" spellcheck="false"></div>
+      <div class="sp-initial sp-thumb sp-cf"></div>
+      <div class="sp-button-container sp-cf"><button type="button" class="sp-choose">choose</button></div>
+    </div>
+  </div>
+  <div class="sp-container sp-hidden sp-light sp-input-disabled sp-alpha-enabled sp-palette-buttons-disabled sp-palette-disabled sp-initial-disabled">
+    <div class="sp-palette-container">
+      <div class="sp-palette sp-thumb sp-cf"></div>
+      <div class="sp-palette-button-container sp-cf"><button type="button" class="sp-palette-toggle">less</button></div>
+    </div>
+    <div class="sp-picker-container">
+      <div class="sp-top sp-cf">
+        <div class="sp-fill"></div>
+        <div class="sp-top-inner">
+          <div class="sp-color" style="background-color: rgb(255, 0, 0);">
+            <div class="sp-sat">
+              <div class="sp-val">
+                <div class="sp-dragger" style="top: 0px; left: 0px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="sp-clear sp-clear-display" style="display: none;" title="Clear Color Selection"></div>
+          <div class="sp-hue">
+            <div class="sp-slider" style="top: 0px;"></div>
+          </div>
+        </div>
+        <div class="sp-alpha">
+          <div class="sp-alpha-inner" style="background: linear-gradient(to right, rgba(0, 0, 0, 0), rgb(0, 0, 0));">
+            <div class="sp-alpha-handle" style="left: 0px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sp-input-container sp-cf"><input class="sp-input" type="text" spellcheck="false"></div>
+      <div class="sp-initial sp-thumb sp-cf"></div>
+      <div class="sp-button-container sp-cf"><button type="button" class="sp-choose">choose</button></div>
+    </div>
+  </div>
+
+  <script>
+
+    App.init();
+
+    jqueryReady();
+
+  </script>
+
+
+</body>
+
+</html>

@@ -627,13 +627,10 @@
         var screenWidth = document.body.clientWidth,
           screenHeight = document.body.clientHeight;
 
-
-
-        canvasParticle.width = parseInt(canvasParticle.style.width);
-        canvasParticle.height = parseInt(canvasParticle.style.height);
-
         var canvasWidth = canvasParticle.width,
         canvasHeight = canvasParticle.height;
+
+        canvasParticle.style.display = 'block';
 
 
         canvasParticle.style.left = ((screenWidth / 3.0) - (canvasWidth / 2.0)) + 'px';
@@ -665,6 +662,8 @@
 
           var logo = document.querySelectorAll('div.logo')[0];
 
+          logo.style.position = 'absolute';
+
           var screenWidth = document.body.clientWidth,
             screenHeight = document.body.clientHeight;
 
@@ -674,9 +673,9 @@
             logo.style.display = 'block';
           }
 
-          //placeCanvas();
+          placeCanvas();
 
-        }, 2000);
+        }, 1000);
 
 
         //2 seconds after window-load, auto-click the #start button
@@ -728,6 +727,8 @@
 
                     var canvas = document.querySelector('canvas#particle-frame-gl');
 
+                    canvas.style.display = 'none';
+
                     window.onresize = function() {
 
                       placeCanvas();
@@ -761,13 +762,15 @@
 
                         var instance = new Module();
 
-                        placeCanvas();
+
 
                         Particle.Instance.add(titleText.toLowerCase(), instance);
 
                         Particle.setSelected(name);
 
                         Particle.getSelected().toggle(true, gameWindow);
+
+                        placeCanvas();
 
                       });
 

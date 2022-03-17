@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
 
   <link rel="stylesheet" type="text/css" href="./res/libraries/contextMenu.css">
@@ -15,6 +15,7 @@
   <script src="./../../js/html5/media-link.js"></script>
   <script src="./res/libraries/threejs/libs/stats.min.js"></script>
   <script src="./res/libraries/three.js"></script>
+
   <script src="./res/libraries/gamelab.js"></script>
   <script src="./res/libraries/proton.min.js"></script>
   <script src="./res/libraries/rest.js"></script>
@@ -49,7 +50,6 @@
   <script src="./res/libraries/gamelab.js" type="text/javascript"></script>
   <script src="./res/libraries/proton.min.js"></script>
 
-
   <script src="./res/scripts/app-init.js" type="text/javascript"></script>
   <script src="./res/scripts/simplex-noise.js" type="text/javascript"></script>
   <script src="./res/scripts/particle-api.js" type="text/javascript"></script>
@@ -59,10 +59,7 @@
   <title>particle generator</title>
 
   <style type="text/css">
-
-    body {
-
-    }
+    body {}
 
     span#top-trim {
       top: 0px;
@@ -224,45 +221,45 @@
     }
 
     div.info-modal input#name {
-        position: relative;
-        display: block;
-        width: 50%;
-        left: 25%;
-        margin: 2px;
-        top: 10px;
+      position: relative;
+      display: block;
+      width: 50%;
+      left: 25%;
+      margin: 2px;
+      top: 10px;
     }
 
     div.info-modal button.continue {
-        position: absolute;
-        display: block;
-        width: 140px;
-        left: 50%;
-        margin-left: -60px;
-        top: 90px;
-        background: teal;
-        color: lightgrey;
+      position: absolute;
+      display: block;
+      width: 140px;
+      left: 50%;
+      margin-left: -60px;
+      top: 90px;
+      background: teal;
+      color: lightgrey;
     }
 
     div.info-modal button.close {
-        position: absolute;
-        width: 22px;
-        height: 24px;
-        font-size: 11px;
-        right: 0px;
-        top: 0px;
-        color: lightgrey;
-        background: teal;
-        border: 1px solid lightgrey;
+      position: absolute;
+      width: 22px;
+      height: 24px;
+      font-size: 11px;
+      right: 0px;
+      top: 0px;
+      color: lightgrey;
+      background: teal;
+      border: 1px solid lightgrey;
     }
-
   </style>
 
 </head>
+
 <body>
 
   <span id="top-trim">
 
-    <span id="main-title" >
+    <span id="main-title">
       Particle Generator
     </span>
 
@@ -391,7 +388,7 @@
 
   <div class="right-pane">
 
-    <button id="start" class="center" >render frames</button>
+    <button id="start" class="center">render frames</button>
     <button id="replay" class="center">replay frames</button>
     <button id="save" class="center">create output</button>
 
@@ -401,6 +398,7 @@
     <span class="object-title">Particle Effects <button id="add-particle" class="plus">+</button> </span>
 
     <div id="tab-title-container" class="tab-title-container">
+
     </div>
 
     <div id="tab-container" class="tab-window-container">
@@ -410,21 +408,25 @@
   </div>
 
 
-
   <div id="main-modal" class="modal-window">
+
     <button class="expand" role="expand">[ ]</button>
+
     <span class="top title">
       Title
+
       <button role="close">X</button>
+
     </span>
 
     <br />
     <br />
+
     <span id="main-modal-content" class="window-scroll window"></span>
+
   </div>
 
   <script>
-
     let AppData = {
       projectName: '--static',
       DEV: {
@@ -440,362 +442,353 @@
 
   </script>
 
-    <script>
+  <script>
+
+    class TabElement {
+
+      constructor(name) {
+
+        var lc_name = name.toLowerCase();
+        var tabTitle = document.createElement('div');
+
+        tabTitle.setAttribute('id', lc_name);
+        tabTitle.setAttribute('data-open', lc_name);
+        tabTitle.classList.add('tab-title');
+        tabTitle.innerText = name;
+
+        var tabWindow = document.createElement('div');
+        tabWindow.classList.add('tab-window');
+        tabWindow.classList.add(lc_name + '-section');
+        tabWindow.setAttribute('id', lc_name);
+
+        $('#tab-title-container').get(0).append(tabTitle);
+        $('#tab-container').get(0).append(tabWindow);
+
+        $('#' + lc_name).click(function() {
 
 
-      class TabElement {
+        });
 
-        constructor(name) {
+      }
 
-          var lc_name = name.toLowerCase();
-          var tabTitle = document.createElement('div');
-
-          tabTitle.setAttribute('id', lc_name);
-          tabTitle.setAttribute('data-open', lc_name);
-          tabTitle.classList.add('tab-title');
-          tabTitle.innerText = name;
-
-          var tabWindow = document.createElement('div');
-          tabWindow.classList.add('tab-window');
-          tabWindow.classList.add(lc_name + '-section');
-          tabWindow.setAttribute('id', lc_name);
-
-          $('#tab-title-container').get(0).append(tabTitle);
-          $('#tab-container').get(0).append(tabWindow);
-
-          $('#' + lc_name).click(function(){
+    }
 
 
+    var gameWindow;
+
+    var V = function(x, y) {
+      return new Gamelab.Vector(x, y)
+    };
+
+    var offset = {
+      min: V(0, 0),
+      max: V(400, 400),
+      step: V(1.0, 1.0),
+      value: V(50, 80)
+    };
+
+    var ParticleOptions = {
+
+      color1: 'aqua',
+
+      color2: 'rgba(0, 20, 120)',
+
+      color3: 'springgreen',
+
+      thickness: 3,
+
+      offset: offset
+
+    };
+
+
+    var Settings = {
+
+      contextMode: '2d'
+
+    };
+
+
+    function createCanvas() {
+
+      var leftPane = document.querySelector('#left-pane');
+
+      var canvas = document.createElement('canvas');
+      canvas.setAttribute('id', 'particle-frame-gl');
+      canvas.setAttribute('class', 'particle-frame');
+
+      canvas.setAttribute('width', 420);
+      canvas.setAttribute('height', 420);
+
+      canvas.style.width = '420px';
+      canvas.style.height = '420px';
+
+      canvas.style.position = 'absolute';
+      canvas.style.top = '15px';
+      canvas.style.left = '280px';
+      canvas.style.cursor = 'inherit';
+      canvas.style.zIndex = '1000';
+
+      leftPane.appendChild(canvas);
+
+    }
+
+
+    function resetGameWindow() {
+
+      createCanvas();
+
+      if (gameWindow && gameWindow.canvas) {
+        gameWindow.stopped = true;
+        $(gameWindow.canvas).remove();
+      }
+
+      var canvasParticle = document.querySelectorAll('.particle-frame')[0];
+      gameWindow = new Gamelab.GameWindow().Size(420, 420);
+      gameWindow.canvas = canvasParticle;
+
+    }
+
+    Gamelab.ready(function() {
+
+      resetGameWindow();
+
+    });
+
+    var Particle = {
+      selected: undefined,
+      getSelected: function() {
+        return this.selected;
+      },
+      setSelected: function(name) {
+        var item = this.Instance.get(name);
+
+        if (item) {
+          this.selected = item;
+          this.moduleOptions.name = name;
+        }
+
+      },
+      Instance: [],
+      moduleOptions: {
+        name: undefined,
+        speed: 2.0,
+        callback: function() {
+
+          resetGameWindow();
+
+          Particle.setSelected(this.name);
+
+          //Particle.selected.toggle(true, gameWindow, Particle.getModuleOptions());
+
+        }
+      },
+
+      getModuleOptions: function() {
+        return this.moduleOptions;
+      }
+    };
+
+    Particle.Instance.get = function(name) {
+
+      for (var x = 0; x < this.length; x++) {
+
+        if (this[x].name == name) {
+          return this[x].moduleInstance;
+        }
+
+      }
+
+      return false;
+
+    };
+
+
+    Particle.Instance.add = function(name, instance) {
+
+      for (var x = 0; x < this.length; x++) {
+
+        if (this[x].name == name) {
+          return false;
+        }
+
+      }
+
+      this.push({
+        name: name,
+        moduleInstance: instance
+      });
+
+    };
+
+
+    function placeCanvas() {
+
+      var canvasParticle = document.querySelectorAll('.particle-frame')[0];
+
+      var screenWidth = document.body.clientWidth,
+        screenHeight = document.body.clientHeight;
+
+      var canvasWidth = canvasParticle.width,
+        canvasHeight = canvasParticle.height;
+
+      canvasParticle.style.display = 'block';
+
+      canvasParticle.style.left = ((screenWidth / 3.0) - (canvasWidth / 2.0)) + 'px';
+      canvasParticle.style.top = 10 + 'px';
+
+    }
+
+    window.onload = function() {
+
+      new TabElement('Sun');
+
+      new TabElement('Fire');
+
+      new TabElement('Circular');
+
+      new TabElement('Pulse');
+
+      new TabElement('Lightning');
+
+      new TabElement('Rune');
+
+      new TabElement('Frost');
+
+      load();
+
+      //Place the renderer at approx center screen (in window)
+
+      window.setInterval(function() {
+
+        var logo = document.querySelectorAll('div.logo')[0];
+
+        logo.style.position = 'absolute';
+
+        var screenWidth = document.body.clientWidth,
+          screenHeight = document.body.clientHeight;
+
+        if (screenWidth < 1100) {
+          logo.style.display = 'none';
+        } else {
+          logo.style.display = 'block';
+        }
+
+        placeCanvas();
+
+      }, 1000);
+
+
+      //2 seconds after window-load, auto-click the #start button
+      window.setTimeout(function() {
+
+        $('#start').click();
+
+        //7 seconds later prepare the canvas click
+        window.setTimeout(function() {
+
+          prepareCanvasClick();
+
+        }, 7000);
+
+      }, 200);
+
+    };
+
+    function prepareCanvasClick() {
+
+      //canvas click is same as pressing replay button ::
+
+      var canvasParticle = document.querySelectorAll('.particle-frame')[0];
+
+      canvasParticle.onclick = function() {
+
+        $('#replay').click();
+
+      };
+
+    }
+
+
+    function load() {
+
+      $('div.tab-title').css('height', '24px');
+
+      $('div.tab-title').each(function(ix, item) {
+
+        if ($(item).hasClass('tab-title-active')) {
+          $(item).css('height', '28px');
+        }
+
+      });
+
+      $('div.tab-title').click(function(evt) {
+
+        resetGameWindow();
+
+        var canvas = document.querySelector('canvas#particle-frame-gl');
+
+        canvas.style.display = 'none';
+
+        window.onresize = function() {
+
+          placeCanvas();
+
+        };
+
+        if (Particle.instance && Particle.instance.stop) {
+          //stop() should always call destroy
+          Particle.instance.stop();
+        }
+
+        var titleText = $(evt.currentTarget).attr('data-open');
+
+        var name = titleText.toLowerCase();
+
+        var moduleInstance = Particle.Instance.get(name);
+
+        if (Particle.getSelected()) {
+          Particle.getSelected().toggle(false, gameWindow);
+        }
+
+        if (moduleInstance) {
+          moduleInstance.toggle(true, gameWindow);
+        } else {
+
+          new Gamelab.Module('./res/particles/' + titleText.toLowerCase() + '.particle.js', function(Module) {
+
+            var instance = new Module();
+
+            Particle.Instance.add(titleText.toLowerCase(), instance);
+
+            Particle.setSelected(name);
+
+            Particle.getSelected().toggle(true, gameWindow);
+
+            placeCanvas();
 
           });
 
         }
 
-      }
-
-
-      var gameWindow;
-
-      var V = function(x, y) { return new Gamelab.Vector(x, y) };
-
-      var offset = { min:V(0, 0), max: V(400, 400), step: V(1.0, 1.0), value: V(50, 80)  };
-
-      var ParticleOptions = {
-
-        color1: 'aqua',
-
-        color2: 'rgba(0, 20, 120)',
-
-        color3: 'springgreen',
-
-        thickness: 3,
-
-        offset: offset
-
-      };
-
-
-      var Settings = {
-
-          contextMode: '2d'
-
-      };
-
-
-      function createCanvas() {
-
-        var leftPane = document.querySelector('#left-pane');
-
-        var canvas = document.createElement('canvas');
-        canvas.setAttribute('id', 'particle-frame-gl');
-        canvas.setAttribute('class', 'particle-frame');
-
-        canvas.setAttribute('width', 420);
-        canvas.setAttribute('height', 420);
-
-        canvas.style.width = '420px';
-        canvas.style.height = '420px';
-
-        canvas.style.position = 'absolute';
-        canvas.style.top = '15px';
-        canvas.style.left = '280px';
-        canvas.style.cursor = 'inherit';
-        canvas.style.zIndex = '1000';
-
-        leftPane.appendChild(canvas);
-
-      }
-
-
-      function resetGameWindow() {
-
-        createCanvas();
-
-        if(gameWindow && gameWindow.canvas)
-        {
-          gameWindow.stopped = true;
-          $(gameWindow.canvas).remove();
-        }
-
-        var canvasParticle = document.querySelectorAll('.particle-frame')[0];
-
-        gameWindow = new Gamelab.GameWindow().Size(420, 420);
-
-        gameWindow.canvas = canvasParticle;
-
-      }
-
-      Gamelab.ready(function() {
-
-        resetGameWindow();
-
-      });
-
-      var Particle = {
-        selected: undefined,
-        getSelected: function(){
-          return this.selected;
-        },
-        setSelected: function(name) {
-          var item = this.Instance.get(name);
-
-          if(item)
-          {
-            this.selected = item;
-            this.moduleOptions.name = name;
-          }
-
-        },
-        Instance: [],
-        moduleOptions : {
-          name: undefined,
-          speed: 2.0,
-          callback: function() {
-
-            resetGameWindow();
-
-            Particle.setSelected(this.name);
-
-            //Particle.selected.toggle(true, gameWindow, Particle.getModuleOptions());
-
-          }
-        },
-
-        getModuleOptions: function(){
-          return this.moduleOptions;
-        }
-      };
-
-      Particle.Instance.get = function(name){
-
-        for(var x = 0; x < this.length; x++)
-        {
-
-          if(this[x].name == name)
-          {
-            return this[x].moduleInstance;
-          }
-
-        }
-
-        return false;
-
-      };
-
-
-      Particle.Instance.add = function(name, instance){
-
-        for(var x = 0; x < this.length; x++)
-        {
-
-          if(this[x].name == name)
-          {
-            return false;
-          }
-
-        }
-
-        this.push({name: name, moduleInstance: instance});
-
-      };
-
-
-      function placeCanvas() {
-
-        var canvasParticle = document.querySelectorAll('.particle-frame')[0];
-
-        var screenWidth = document.body.clientWidth,
-          screenHeight = document.body.clientHeight;
-
-        var canvasWidth = canvasParticle.width,
-        canvasHeight = canvasParticle.height;
-
-        canvasParticle.style.display = 'block';
-
-
-        canvasParticle.style.left = ((screenWidth / 3.0) - (canvasWidth / 2.0)) + 'px';
-        canvasParticle.style.top = 10 + 'px';
-
-      }
-
-      window.onload = function() {
-
-        new TabElement('Sun');
-
-        new TabElement('Fire');
-
-        new TabElement('Circular');
-
-        new TabElement('Pulse');
-
-        new TabElement('Lightning');
-
-        new TabElement('Rune');
-
-        new TabElement('Frost');
-
-        load();
-
-        //Place the renderer at approx center screen (in window)
-
-        window.setInterval(function() {
-
-          var logo = document.querySelectorAll('div.logo')[0];
-
-          logo.style.position = 'absolute';
-
-          var screenWidth = document.body.clientWidth,
-            screenHeight = document.body.clientHeight;
-
-          if (screenWidth < 1100) {
-            logo.style.display = 'none';
-          } else {
-            logo.style.display = 'block';
-          }
-
-          placeCanvas();
-
-        }, 1000);
-
-
-        //2 seconds after window-load, auto-click the #start button
-        window.setTimeout(function() {
-
-          $('#start').click();
-
-          //7 seconds later prepare the canvas click
-          window.setTimeout(function() {
-
-            prepareCanvasClick();
-
-          }, 7000);
-
-        }, 200);
-
-      };
-
-      function prepareCanvasClick() {
-
-        //canvas click is same as pressing replay button ::
-
-        var canvasParticle = document.querySelectorAll('.particle-frame')[0];
-
-        canvasParticle.onclick = function() {
-
-          $('#replay').click();
-
-        };
-
-      }
-
-
-      function load() {
+        $('.' + 'tab-window').hide();
 
         $('div.tab-title').css('height', '24px');
 
-        $('div.tab-title').each(function(ix, item) {
+        $('div.tab-title').removeClass('tab-title-active');
 
-          if ($(item).hasClass('tab-title-active')) {
-            $(item).css('height', '28px');
-          }
+        $('div.tab-title#' + titleText.toLowerCase()).css('height', '28px');
 
-        });
+        $($('.' + titleText + '-section')[0]).css('opacity', 1.0);
 
-        $('div.tab-title').click(function(evt) {
+        $($('.' + titleText + '-section')[0]).css('left', '0px');
 
-                    resetGameWindow();
+        $($('.' + titleText + '-section')[0]).show();
 
-                    var canvas = document.querySelector('canvas#particle-frame-gl');
+      });
 
-                    canvas.style.display = 'none';
-
-                    window.onresize = function() {
-
-                      placeCanvas();
-
-                    };
-
-                    if (Particle.instance && Particle.instance.stop) {
-                      //stop() should always call destroy
-                      Particle.instance.stop();
-                    }
-
-                    var titleText = $(evt.currentTarget).attr('data-open');
-
-                    var name = titleText.toLowerCase();
-
-                    var moduleInstance = Particle.Instance.get(name);
-
-                    if(Particle.getSelected())
-                    {
-                      Particle.getSelected().toggle(false, gameWindow);
-                    }
-
-                    if(moduleInstance)
-                    {
-                      moduleInstance.toggle(true, gameWindow);
-                    }
-
-                    else {
-
-                      new Gamelab.Module('./res/particles/' + titleText.toLowerCase() + '.particle.js', function(Module) {
-
-                        var instance = new Module();
-
-
-
-                        Particle.Instance.add(titleText.toLowerCase(), instance);
-
-                        Particle.setSelected(name);
-
-                        Particle.getSelected().toggle(true, gameWindow);
-
-                        placeCanvas();
-
-                      });
-
-                    }
-
-                    $('.' + 'tab-window').hide();
-
-                    $('div.tab-title').css('height', '24px');
-
-                    $('div.tab-title').removeClass('tab-title-active');
-
-                    $('div.tab-title#' + titleText.toLowerCase()).css('height', '28px');
-
-                    $($('.' + titleText + '-section')[0]).css('opacity', 1.0);
-
-                    $($('.' + titleText + '-section')[0]).css('left', '0px');
-
-                    $($('.' + titleText + '-section')[0]).show();
-
-        });
-
-      }
-
-    </script>
-
+    }
+  </script>
 
 </body>
 

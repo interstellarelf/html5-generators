@@ -102,11 +102,11 @@ module.exports = function(openNow) {
     else {
       console.log('Main-index: get-request');
       //res.end('request from one of the app folders');
-      res.sendFile(path.join(__dirname, app_uriPrefix + '/client/' + req.url));
+      res.sendFile(path.join(__dirname, app_uriPrefix + '/apps/html5-sprite-formation/index.html'));
     }
   });
 
-  app.use(express.static('app'));
+  app.use(express.static(path.join(__dirname, app_uriPrefix + '/apps/')));
 
   /*****************************************************************************
    * #Server-Main, #Desktop
@@ -140,10 +140,18 @@ module.exports = function(openNow) {
   *****************************************************************************/
 
   app.get('/create-particle/:name', function(req, res){
-    
+
       console.log('Create-Particle');
 
       res.send('--req-incomplete');
+
+  });
+
+  app.get('/api/get-formation-folders/:name', function(req, res){
+
+    var directory = req.params.workingDirectory;
+
+    res.send('--req-incomplete @ dir:' + directory);
 
   });
 

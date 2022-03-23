@@ -17,7 +17,7 @@
   <script src="./res/libraries/three.js"></script>
 
   <script src="./res/libraries/gamelab.js"></script>
-  <script src="./res/libraries/proton.min.js"></script>
+  <script src="./res/libraries/proton.engine.js"></script>
   <script src="./res/libraries/rest.js"></script>
   <script src="./res/libraries/files.js"></script>
   <script src="./res/libraries/dat.gui.js"></script>
@@ -509,6 +509,24 @@
     };
 
 
+    function getFirstCanvas() {
+      return document.querySelector('#particle-frame-gl');
+    }
+
+    function getFinalCanvas() {
+      return document.querySelector('#final-frame-gl');
+    }
+
+    function showFinalCanvas() {
+      gameWindow.canvas.style.zIndex = '-10';
+      getFinalCanvas().style.zIndex = '1000';
+    }
+
+    function showFirstCanvas() {
+      gameWindow.canvas.style.zIndex = '1000';
+      getFinalCanvas().style.zIndex = '-10';
+    }
+
     function createCanvas() {
 
       var leftPane = document.querySelector('#left-pane');
@@ -527,9 +545,30 @@
       canvas.style.top = '15px';
       canvas.style.left = '280px';
       canvas.style.cursor = 'inherit';
-      canvas.style.zIndex = '1000';
+      canvas.style.zIndex = '-10';
 
       leftPane.appendChild(canvas);
+
+
+      var finalCanvas = document.createElement('canvas');
+      finalCanvas.setAttribute('id', 'final-frame-gl');
+      finalCanvas.setAttribute('class', 'final-frame');
+
+      finalCanvas.setAttribute('width', 420);
+      finalCanvas.setAttribute('height', 420);
+
+      finalCanvas.style.width = '420px';
+      finalCanvas.style.height = '420px';
+
+      finalCanvas.style.position = 'absolute';
+      finalCanvas.style.top = '15px';
+      finalCanvas.style.left = '280px';
+      finalCanvas.style.cursor = 'inherit';
+      finalCanvas.style.zIndex = '1000';
+
+      leftPane.appendChild(finalCanvas);
+
+
 
     }
 
@@ -541,11 +580,14 @@
       if (gameWindow && gameWindow.canvas) {
         gameWindow.stopped = true;
         $(gameWindow.canvas).remove();
+        $(getFinalCanvas()).remove();
       }
 
       var canvasParticle = document.querySelectorAll('.particle-frame')[0];
       gameWindow = new Gamelab.GameWindow().Size(420, 420);
       gameWindow.canvas = canvasParticle;
+
+      showFirstCanvas();
 
     }
 

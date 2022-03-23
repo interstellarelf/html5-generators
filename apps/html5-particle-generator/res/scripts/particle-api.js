@@ -2,7 +2,7 @@
 
 class ParticleOption {
 
-  constructor() {    
+  constructor() {
   }
 
   Min(min) {
@@ -124,5 +124,104 @@ var ParticleApi = function(Controller, init){
 
   };
 
+
+};
+
+
+
+
+class ProtonDropOption {
+
+  constructor(key, min, max) {
+
+    this.key = key;
+
+    if(min)
+    {
+      this.min = min;
+    }
+
+    if(max)
+    {
+      this.max = max;
+    }
+
+  }
+
+  Min(min) {
+
+    this.min = min;
+
+    return this;
+
+  }
+
+  Max(max) {
+
+    this.max = max;
+
+    return this;
+
+  }
+
+  ready(item) {
+
+    function def(v) {
+      return v !== undefined;
+    }
+
+    if(def(this.min) && item[this.key] < this.min)
+    {
+      return true;
+    }
+
+    if(def(this.max) && item[this.key] > this.max)
+    {
+      return true;
+    }
+
+    return false;
+
+  }
+
+}
+
+
+
+Proton.BoundEmitter = function(){
+
+  var emitter = new Proton.Emitter();
+
+  emitter.Drop = function(key){
+
+    this.dropOptions[x] = new ProtonDropOption(key);
+
+    return this.dropOptions[x];
+
+  };
+
+  emitter.dropOptions = {};
+
+  emitter.dropUpdate = function(){
+
+    var $e = this;
+
+    this.particles.forEach(function(p){
+
+      for(var x in $e.dropOptions)
+      {
+        if($e.dropOptions[x].ready(p))
+        {
+          var index = $e.particles.indexOf(p);
+          $e.particles.splice(index, 1);
+        }
+      }
+
+    });
+
+  }
+
+
+  return emitter;
 
 };

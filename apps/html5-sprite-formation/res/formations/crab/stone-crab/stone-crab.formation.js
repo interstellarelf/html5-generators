@@ -154,20 +154,15 @@ module.exports = function(gameWindow) {
   var backLowerLeg3 = new Gamelab.Sprite('./res/formations/crab/stone-crab/lower-leg-x1.png');
 
 
+  var body = new Gamelab.Sprite('./res/formations/crab/stone-crab/body-04.png'),
 
+  eye = new Gamelab.Sprite('./res/formations/crab/stone-crab/eye.png');
 
-  var body = new Gamelab.Sprite('./res/formations/crab/stone-crab/spike-body.png'),
-
-    gill = new Gamelab.Sprite('./res/formations/crab/stone-crab/gill.png'),
-
-    eye = new Gamelab.Sprite('./res/formations/crab/stone-crab/eye.png');
-
+  eye.Scale(0.75);
 
   body.Position(180, 180);
 
-  gill.Position(230, 215);
-
-  eye.Position(196, 230);
+  eye.Position(196, 215);
 
   eye.Layer(-2);
 
@@ -176,17 +171,14 @@ module.exports = function(gameWindow) {
   body.Layer(-3);
 
 
-
-  var legOffset1 = new V(42, 102),
-      legOffset2 = new V(68, 102),
-      legOffset3 = new V(96, 102);
+  var legOffset1 = new V(42, 100),
+      legOffset2 = new V(68, 100),
+      legOffset3 = new V(96, 100);
 
 
   var CrabStruct = {
 
     body: body,
-
-    gill: gill,
 
     eye: eye,
 

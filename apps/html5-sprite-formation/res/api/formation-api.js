@@ -71,7 +71,6 @@ function roundToZeroSpriteRotation(sprite, nearest) {
 
 }
 
-
 var MotionLibrary = {
 
   SeekVertPairRotation: function(upper, lower, rt1, rt2, duration, curve) {

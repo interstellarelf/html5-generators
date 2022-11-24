@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html>
 
 <head>
@@ -7,7 +7,6 @@
   <link rel="stylesheet" type="text/css" href="./res/libraries/dat.gui.css">
   <link rel="stylesheet" type="text/css" href="./res/styles/x-builder-menu.css">
   <link rel="stylesheet" type="text/css" href="./res/styles/main.css">
-  <link rel="stylesheet" type="text/css" href="./res/styles/gl-tools-theme.css">
   <link rel="stylesheet" type="text/css" href="./res/styles/x-builder-default.css" media="all" />
 
   <script src="./res/libraries/arrow.js"></script>
@@ -50,9 +49,8 @@
   <script src="./res/libraries/FileSaver.min.js" type="text/javascript"></script>
   <script src="./res/libraries/gifshot.min.js" type="text/javascript"></script>
 
-  <script src="./res/libraries/gamelab.js" type="text/javascript"></script>\
+  <script src="./res/libraries/gamelab.js" type="text/javascript"></script>
   <script src="./res/scripts/app-init.js" type="text/javascript"></script>
-  <script src="./res/scripts/formation-api.js" type="text/javascript"></script>
 
   <title>sprite animation generator</title>
 
@@ -471,6 +469,7 @@
   </div>
 
   <script>
+
     let AppData = {
       projectName: '--static',
       DEV: {
@@ -480,9 +479,10 @@
 
     $(document).ready(function() {
 
-      new MainMenu();
+      //new MainMenu();
 
     });
+
   </script>
 
   <script>
@@ -589,15 +589,21 @@
 
     function resetGameWindow() {
 
-      if (gameWindow && gameWindow.canvas) {
+      var canvas = document.getElementById('formation-frame-gl');
+
+      if (gameWindow) {
         gameWindow.stopped = true;
         gameWindow.drawables = [];
         gameWindow.animate = gameWindow.update = function(){};
-        $(gameWindow.canvas).remove();
+      }
+
+      if(canvas)
+      {
+        $(canvas).remove();
         createCanvas();
       }
 
-      var canvasFormation = document.querySelectorAll('.formation-frame')[0];
+      var canvasFormation = document.getElementById('formation-frame-gl');
       gameWindow = new Gamelab.GameWindow().Size(420, 420);
       gameWindow.canvas = canvasFormation;
       gameWindow.ctx = canvasFormation.getContext('2d');

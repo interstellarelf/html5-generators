@@ -1,0 +1,888 @@
+body,
+#screenfill {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url(../images/black.png);
+  background-size: 100% auto;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+}
+
+div#wordform {
+  position: fixed;
+  top: 120px;
+  z-index: 9000;
+  width: 40%;
+  height: 240px;
+  left: 30%;
+  display: none;
+  border: 2px solid goldenrod;
+  border-radius: 7px;
+  background: #222;
+  padding: 20px;
+}
+
+div.wordspace {
+  position: fixed;
+  width: 45%;
+}
+
+div#relform {
+  position: absolute;
+  top: 120px;
+  z-index: 9999;
+  left: 50%;
+  width: 200px;
+  margin-left: -100px;
+  display: none;
+  border: 2px solid brown;
+  border-radius: 7px;
+  background: #222;
+  padding: 0px;
+}
+
+div#add-wordform {
+  position: absolute;
+  top: 120px;
+  z-index: 9999;
+  left: 50%;
+  width: 200px;
+  margin-left: -100px;
+  display: none;
+  border: 2px solid brown;
+  border-radius: 7px;
+  background: #222;
+  padding: 0px;
+}
+
+div#wordlist-words {
+  position: relative;
+  left: 50px;
+  margin-top: -45px;
+}
+
+div.wordlist-heading {
+  position: relative;
+  left: 86px;
+  padding-top: 15px;
+}
+
+div.word {
+  margin: 10px;
+  margin-left: 50px;
+}
+
+div#relform input, div#relform button {
+  margin: 5px;
+}
+
+div#listform {
+  position: fixed;
+  top: 120px;
+  z-index: 9999;
+  width: 40%;
+  left: 30%;
+  height: 230px;
+  display: none;
+  border: 2px solid goldenrod;
+  border-radius: 7px;
+  background: #222;
+  padding: 20px;
+  overflow: hidden;
+}
+
+nav#top div#signup a#login {
+  color: lightblue;
+}
+
+nav#top div#signup a#signup {
+  color: lightblue;
+}
+
+a#listform input {
+  margin: 10px;
+}
+
+#input-rel-word, #input-rel-def, #input-word, #input-def, #input-list-access-key {
+  width: 70%;
+}
+
+#input-list-access-key {
+  left: 5%;
+  top: 0px;
+}
+
+#input-rel-def, #input-def, #input-date {
+  margin: 2%;
+}
+
+#input-word.thinner, #input-def.thinner {
+  position: relative;
+  width: 70%;
+}
+
+#input-def.thinner {
+  position: relative;
+  width: 70%;
+  left: 6%;
+}
+
+#deflist-date-label {
+  margin-left: 37px;
+}
+
+#datepicker {
+  display: block;
+  margin-left: 0px;
+}
+
+div#listform input {
+  margin: 10px;
+  background: black;
+  color: lightgrey;
+}
+
+span.access-key {
+  display: block;
+  color: lightgrey;
+  background: #222;
+  margin: 8px;
+  margin-left: 30px;
+}
+
+button.close-form {
+  position: absolute;
+  right: 2px;
+  top: 2px;
+}
+
+button.close-form.place-top {
+  position: absolute;
+  z-index: 9999;
+  right: 2px;
+  top: 2px;
+}
+
+textarea {
+  background: #222;
+  color: lightgrey;
+}
+
+button.add-word {
+  position: absolute;
+  z-index: 9999;
+  color: lightgrey;
+  left: 50%;
+  top: 28px;
+  text-align: center;
+}
+
+section.def-list {
+  overflow-y: visible;
+}
+
+button.def-list {
+  position: absolute;
+  color: lightgrey;
+  left: -68px;
+  top: 28px;
+  text-align: center;
+}
+
+.ui-button-text-only .ui-button-text {
+  padding: 0.25em 0.25em;
+  padding-left: 0.3em;
+  font-size: 14px;
+}
+
+button.continue {
+  position: relative;
+  width: 180px;
+  top: 20px;
+  left: 4%;
+  margin-left: -90px;
+}
+
+button.continue.center {
+  position: relative;
+  width: 180px;
+  left: 50%;
+  margin-left: -115px;
+}
+
+button#continue-wordlist {
+  width: 180px;
+  display: block;
+  left: 50%;
+  margin-left: -120px;
+}
+
+button.add-word-related {
+  position: relative;
+  display: inline-block;
+  background: #222;
+  color: lightgreen;
+  margin-left: 7px;
+}
+
+button.add-word {
+  position: relative;
+  display: inline-block;
+  background: #222;
+  color: lightgreen;
+  margin-left: 7px;
+}
+
+.wordlist {
+  margin: 12px;
+  max-width: 60%;
+  padding-right: 7%;
+}
+
+div.centerCase {
+  top: 30%;
+  height: 70%;
+}
+
+@keyframes type {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1.0;
+  }
+}
+
+p,
+span,
+h1,
+h2,
+h3,
+h4 {
+  animation: type 0.5s steps(60, end);
+}
+
+header {
+  position: absolute;
+  width: 100%;
+}
+
+section {
+  position: relative;
+  top: 5px;
+  min-height: 100px;
+}
+
+a {
+  text-decoration: none;
+}
+
+nav#top {
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 200px;
+  background: url(../dist/images/black.png);
+  background-size: 100% auto;
+  top: 20px;
+}
+
+nav#top #links {
+  position: absolute;
+  display: inline-block;
+  width: 80%;
+  top: -10px;
+  left: 140px;
+}
+
+nav#top a {
+  margin: 0px;
+  color: lightblue;
+  margin-left: 14px;
+  border: 1px solid grey;
+  padding: 7px;
+  background: black;
+  font-size: 14px;
+}
+
+nav#top div#signup {
+  position: absolute;
+  width: 180px;
+  top: -10px;
+  right: 2px;
+}
+
+nav#top div#signup a {
+  color: teal;
+  margin-left: 10px;
+}
+
+a#search {}
+
+a#games {}
+
+a#my-vocab {}
+
+a#articles {}
+
+a#sponsors {}
+
+word {
+  display: none;
+}
+
+def {
+  display: none;
+}
+
+span.radio-group {
+  display: block;
+  margin-left: 100px;
+  margin-top: -20px;
+}
+
+i.arrow {
+  font-size: 1.3em;
+  color: teal;
+}
+
+.content-select-form {
+  margin: 15px;
+  color: snow;
+}
+
+.content-select-form label {
+  position: relative;
+  font-size: 17px;
+  top: -4px;
+}
+
+.content-select-form input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+}
+
+.content-select-form h3 {
+  font-size: 19px;
+  color: lightgrey;
+}
+
+#searchWordsForm {
+  position: absolute;
+  left: 50px;
+  margin-top: -20px;
+}
+
+#rest-mode {
+  position: absolute;
+  display: inline-block;
+  left: 100px;
+  top: -35px;
+  min-width: 210px;
+  border: 1px solid #444444;
+  background: #222222 url("images/ui-bg_highlight-soft_35_222222_1x100.png") 50% 50% repeat-x;
+  font-weight: normal;
+  color: #eeeeee;
+}
+
+.word-hyperlink {
+  color: salmon;
+}
+
+.word-heading {
+  color: lightgrey;
+  padding: 4px;
+  width: 80%;
+  margin-left: 0;
+  background: rgb(5, 15, 27);
+  /* Old browsers */
+  background: -moz-linear-gradient(top, rgba(5, 15, 27, 1) 0%, rgba(7, 24, 37, 1) 50%, rgba(5, 21, 35, 1) 51%, rgba(9, 33, 51, 1) 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, rgba(5, 15, 27, 1) 0%, rgba(7, 24, 37, 1) 50%, rgba(5, 21, 35, 1) 51%, rgba(9, 33, 51, 1) 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, rgba(5, 15, 27, 1) 0%, rgba(7, 24, 37, 1) 50%, rgba(5, 21, 35, 1) 51%, rgba(9, 33, 51, 1) 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.heading-definition {
+  color: lightgrey;
+}
+
+.heading-link,
+span.heading-lemma {
+  color: tomato;
+}
+
+.tabContentSwitch,
+.ui-tabs .ui-tabs-nav li.ui-state-disabled .ui-tabs-anchor,
+.ui-tabs .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor,
+.ui-tabs .ui-tabs-nav li.ui-tabs-loading .ui-tabs-anchor {
+  font-size: 12px;
+  cursor: pointer;
+}
+
+button.add-list {
+  position: absolute;
+  right: 3px;
+  width: 19%;
+  margin-top: 0;
+  font-size: 12px;
+  background: #222222 url("images/ui-bg_highlight-soft_35_222222_1x100.png") 50% 50% repeat-x;
+}
+
+div.menu-bar-button {
+  position: absolute;
+  right: 7px;
+  top: -35%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  padding: 4px 7px;
+  border-radius: 7px;
+  background: rgba(30, 30, 30, 0.4);
+  border: 2px solid #444;
+}
+
+div.menu-bar:hover {
+  border-radius: 7px;
+  background: rgba(30, 30, 30, 0.8);
+}
+
+div.settings-bar-button {
+  position: absolute;
+  right: 77px;
+  top: -35%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  padding: 4px 7px;
+  border-radius: 7px;
+  background: rgba(30, 30, 30, 0.4);
+  border: 2px solid #444;
+}
+
+div.settings-bar:hover {
+  border-radius: 7px;
+  background: rgba(30, 30, 30, 0.8);
+}
+
+button.settings {
+  position: relative;
+  font-size: 17px;
+  color: lightgrey;
+  background: #222222;
+}
+
+.bar1,
+.bar2,
+.bar3 {
+  width: 35px;
+  height: 2px;
+  background-color: lightgrey;
+  margin: 9px 2px;
+  transition: 0.4s;
+}
+
+/* Rotate first bar */
+.change .bar1 {
+  -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+  transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+/* Fade out the second bar */
+.change .bar2 {
+  opacity: 0;
+}
+
+/* Rotate last bar */
+.change .bar3 {
+  -webkit-transform: rotate(45deg) translate(-8px, -8px);
+  transform: rotate(45deg) translate(-8px, -8px);
+}
+
+.elipsis1,
+.elipsis2,
+.elipsis3 {
+  width: 9px;
+  height: 9px;
+  background-color: lightgrey;
+  margin: 4px 15px;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+/* Rotate first bar */
+.change .elipsis1 {
+  -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+  transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+/* Fade out the second bar */
+.change .elipsis2 {
+  opacity: 0;
+}
+
+/* Rotate last bar */
+.change .elipsis3 {
+  -webkit-transform: rotate(45deg) translate(-8px, -8px);
+  transform: rotate(45deg) translate(-8px, -8px);
+}
+
+div#wordstack-content {
+  position: absolute;
+  z-index: 9999;
+  width: 50%;
+  right: 0;
+  top: 130px;
+  min-height: 300px;
+  max-height: 500px;
+  background: #111;
+  border-radius: 7px;
+  border: 1px ridge lightgrey;
+  display: none;
+  padding-top: 35px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+div#wordstack-settings {
+  position: absolute;
+  z-index: 9999;
+  width: 20%;
+  right: 0;
+  top: 130px;
+  min-height: 70%;
+  max-height: 700px;
+  background: #111;
+  border-radius: 7px;
+  border: 1px ridge lightgrey;
+  display: none;
+  padding-top: 5px;
+  overflow: hidden;
+}
+
+div#wordstack-settings span.title {
+  position: relative;
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+div#wordstack-settings div.row {
+  position: relative;
+  min-width: 200px;
+  max-width: 200px;
+  display: block;
+  left: 80px;
+}
+
+.title-tool {
+  display: block;
+  text-align: center;
+  padding-bottom: 7px;
+}
+
+div#wordstack-settings div.row label {
+  position: relative;
+  margin-left: 20px;
+}
+
+div#wordstack-settings div.row input {
+  position: absolute;
+  right: 5px;
+}
+
+div#wordstack-settings button.play, div#wordstack-settings button.show {
+  position: relative;
+  width: 90%;
+  left: 5%;
+  display: block;
+  text-align: center;
+}
+
+div#wordstack-settings button.fetch {
+  position: relative;
+  width: 84%;
+  left: 5%;
+  display: block;
+  text-align: center;
+  border-radius: 3px;
+  color: lightgrey;
+  background: teal;
+  border: 1px ridge lightgrey;
+  font-size: 10px;
+  padding: 4px;
+  margin: 4px;
+}
+
+div#wordstack-settings button.fetch .ui-button-text {
+  font-size: 11px;
+}
+
+div#wordstack-settings button.fetch.list {
+  position: relative;
+  width: 84%;
+  left: 5%;
+  display: block;
+  text-align: center;
+  border-radius: 3px;
+  color: lightgrey;
+  background: #222;
+  border: 1px ridge lightgrey;
+  font-size: 10px;
+  padding: 4px;
+  margin: 4px;
+}
+
+div#wordstack-settings button.fetch-list .ui-button-text {
+  font-size: 11px;
+}
+
+div#wordstack-settings button.submit {
+  position: relative;
+  width: 84%;
+  left: 5%;
+  display: block;
+  text-align: center;
+  border-radius: 3px;
+  color: lightgrey;
+  background: brown;
+  border: 1px ridge lightgrey;
+  font-size: 10px;
+  padding: 4px;
+  margin: 4px;
+}
+
+div#wordstack-settings button.submit .ui-button-text {
+  font-size: 11px;
+}
+
+input.open-file {
+  display: none;
+}
+
+a.save-as-file,
+span.open-file {
+  position: absolute;
+  z-index: 9990;
+  right: 160px;
+  top: 4px;
+  font-size: 10px;
+  color: lightgrey;
+  background: #111;
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+  padding: 4px;
+  margin: 3px;
+}
+
+a.save-as-file {
+  right: 62px;
+  cursor: pointer;
+}
+
+span.read-aloud {
+  position: absolute;
+  right: 200px;
+  width: 30px;
+  height: 30px;
+  top: 4px;
+  border-radius: 50%;
+  background: url("./examples/images/megaphone.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+span.plus-button {
+  position: absolute;
+  z-index: 9990;
+  right: 300px;
+  width: 20px;
+  height: 20px;
+  top: 1px;
+  padding: 4px;
+  margin: 3px;
+  border-radius: 50%;
+  background: url("./examples/images/plus-button.png");
+  background-size: 80% auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+#plus-button:hover {
+  background-size: 90% auto;
+  background-position: center;
+}
+
+span.box-title {
+  position: absolute;
+  z-index: 9989;
+  left: 4px;
+  top: 4px;
+  font-size: 12px;
+  width: 100%;
+  padding: 4px;
+  margin: 3px;
+  color: snow;
+  pointer-events: none;
+}
+
+#wordlist-title {
+  margin-left: 27px;
+  font-size: 20px;
+}
+
+#word-input {
+  display: none;
+}
+
+#word-input input {
+  position: relative;
+  width: 70%;
+  left: 5%;
+  color: lightgrey;
+  margin-top: 3px;
+}
+
+#word-input button.submit {
+  position: relative;
+  display: inline-block;
+  margin-left: 150px;
+  margin-top: 3px;
+  margin-bottom: 2px;
+}
+
+span.list-item.word {
+  background: #333;
+  cursor: pointer;
+}
+
+span.list-item.word.selected {
+  background: #111;
+  color: lightgrey;
+}
+
+h4.data-tag {
+  font-size: 14px;
+}
+
+span.value {
+  font-size: 14px;
+}
+
+div.nav {
+  position: fixed;
+  top: 22px;
+  left: 22px;
+}
+
+a.top-link.one {
+  position: fixed;
+  display: inline-block;
+  margin-left: 120px;
+  background: black;
+  color: lightgrey;
+  text-decoration: none;
+  padding: 6px;
+  border: 1px solid grey;
+}
+
+a.top-link.two {
+  position: fixed;
+  display: inline-block;
+  margin-left: 220px;
+  background: black;
+  color: lightgrey;
+  text-decoration: none;
+  padding: 6px;
+  border: 1px solid grey;
+}
+
+.scroll-x::-webkit-scrollbar,
+.scroll-y::-webkit-scrollbar,
+.scroll::-webkit-scrollbar {
+  width: 17px;
+  background-color: transparent;
+  background: transparent;
+}
+
+.scroll-x::-webkit-scrollbar-thumb,
+.scroll-y::-webkit-scrollbar-thumb,
+.scroll::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  background: rgba(40, 40, 40, 1.0);
+  border: 1px solid #444;
+  border-radius: 4px;
+}
+
+@keyframes slidelink {
+  from {
+    color: darkorange;
+    font-weight: normal;
+    letter-spacing: 2px;
+    border-bottom: none;
+    padding: 4px;
+    padding-left: 4px;
+    padding-right: 0px;
+  }
+
+  to {
+    color: orangered;
+    font-weight: normal;
+    letter-spacing: 3px;
+    border-bottom: 1px solid brown;
+    padding: 4px;
+    padding-left: 7px;
+    padding-right: 0px;
+  }
+}
+
+@keyframes slidebacklink {
+  from {
+    color: orangered;
+    font-weight: normal;
+    letter-spacing: 3px;
+    border-bottom: 1px solid brown;
+    padding: 4px;
+    padding-left: 7px;
+    padding-right: 0px;
+  }
+
+  to {
+    color: darkorange;
+    font-weight: normal;
+    letter-spacing: 2px;
+    border: none;
+    padding: 4px;
+    padding-left: 4px;
+    padding-right: 0px;
+  }
+}
+
+span.a-link {
+  color: orangered;
+  cursor: pointer;
+  animation-duration: 0.25s;
+  animation-name: slidebacklink;
+  animation-fill-mode: forwards;
+  user-select: none;
+  margin-left: 0px;
+  position: relative;
+  left: -4px;
+  border: none;
+}
+
+span.a-link:hover {
+  animation-duration: 0.25s;
+  animation-name: slidelink;
+  animation-fill-mode: forwards;
+}
+
+span.wordlist-definition {
+  line-height: 24px;
+}
